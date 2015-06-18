@@ -19,9 +19,6 @@
 
 #pragma once
 
-#include "Config.h"
-
-#define USE_RIFT 1
 
 #include <algorithm>
 #include <array>
@@ -42,26 +39,46 @@
 #include <thread>
 #include <unordered_map>
 
+
+#define HAVE_OPENCV 1
+
+#define OS_LINUX
+#define OVR_OS_LINUX
+#define USE_RIFT 1
+
+
+// Platform specific code
+#if defined(OS_WIN)
+    #define ON_WINDOWS(runnable) runnable()
+    #define ON_MAC(runnable)
+    #define ON_LINUX(runnable)
+    #define NOMINMAX
+    #define WIN32_LEAN_AND_MEAN
+    #include <Windows.h>
+    #undef NOMINMAX
+#elif defined(OS_OSX)
+    #define ON_WINDOWS(runnable)
+    #define ON_MAC(runnable) runnable()
+    #define ON_LINUX(runnable)
+#elif defined(OS_LINUX)
+    #define ON_WINDOWS(runnable)
+    #define ON_MAC(runnable)
+    #define ON_LINUX(runnable) runnable()
+#endif
+
+#define __STDC_FORMAT_MACROS 1
+#define GLM_FORCE_RADIANS
+
 #include <GL/glew.h>
 #define OGLPLUS_USE_GLEW 1
 #define OGLPLUS_USE_GLCOREARB_H 0
 #include <oglplus/gl.hpp>
-#pragma warning(disable : 4068)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-#pragma warning( disable : 4244 4267 4065 4101)
 #include <oglplus/all.hpp>
 #include <oglplus/interop/glm.hpp>
 #include <oglplus/bound/texture.hpp>
 #include <oglplus/bound/framebuffer.hpp>
 #include <oglplus/bound/renderbuffer.hpp>
 #include <oglplus/shapes/wrapper.hpp>
-#pragma warning( default : 4244 4267 4065 4101)
-#pragma clang diagnostic pop
-
-#if (HAVE_QT) || (Q_MOC_RUN)
-#include <QtCore>
-#endif
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -70,6 +87,7 @@
 #include <glm/gtc/epsilon.hpp>
 #include <glm/gtx/norm.hpp>
 
+// Most commonly used
 using glm::ivec3;
 using glm::ivec2;
 using glm::uvec2;
@@ -80,6 +98,7 @@ using glm::vec3;
 using glm::vec4;
 using glm::quat;
 
+// Calc ration
 inline float aspect(const glm::uvec2 & v)
 {
     return (float)v.x / (float)v.y;
@@ -87,8 +106,11 @@ inline float aspect(const glm::uvec2 & v)
 
 #include <GLFW/glfw3.h>
 
+// TODO: ???
 #include <resources/Resources.h>
 
+
+// Make sure some function will be executed at application exit
 typedef std::function<void()> Lambda;
 typedef std::list<Lambda> LambdaList;
 
@@ -109,6 +131,7 @@ public:
     }
 };
 
+
 #include "Platform.h"
 #include "Utils.h"
 
@@ -126,14 +149,6 @@ public:
 
 #include "glfw/GlfwUtils.h"
 #include "glfw/GlfwApp.h"
-
-#if defined(OS_WIN)
-#define OVR_OS_WIN32
-#elif defined(OS_OSX)
-#define OVR_OS_MAC
-#elif defined(OS_LINUX)
-#define OVR_OS_LINUX
-#endif
 
 #include <OVR_CAPI.h>
 #include <OVR_CAPI_GL.h>
@@ -163,18 +178,3 @@ public:
 #ifndef DEGREES_TO_RADIANS
 #define DEGREES_TO_RADIANS (PI / 180.0f)
 #endif
-
-// Combine some macros together to create a single macro
-// to run an example app
-#define RUN_APP(AppClass) \
-    MAIN_DECL { \
-        try { \
-            return AppClass().run(); \
-        } catch (std::exception & error) { \
-            SAY_ERR(error.what()); \
-        } catch (const std::string & error) { \
-            SAY_ERR(error.c_str()); \
-        } \
-        return -1; \
-    }
-
