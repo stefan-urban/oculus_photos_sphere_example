@@ -25,7 +25,8 @@ SOURCES += main.cpp \
     ovr/RiftManagerApp.cpp \
     ovr/RiftRenderingApp.cpp \
     resources/ResourceEnums.cpp \
-    resources/Resources.cpp
+    resources/Resources.cpp \
+    PhotoSphereExample.cpp
 
 HEADERS += \
     Common.h \
@@ -53,4 +54,5 @@ HEADERS += \
     rendering/Vectors.h \
     resources/ResourceEnums.h \
     resources/Resources.h \
-    resources/Resources_Export.h
+    resources/Resources_Export.h \
+    PhotoSphereExample.h
