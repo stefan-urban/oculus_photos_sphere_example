@@ -29,7 +29,6 @@ SOURCES += main.cpp \
 
 HEADERS += \
     Common.h \
-    Config.h \
     IO.h \
     Platform.h \
     Types.h \
