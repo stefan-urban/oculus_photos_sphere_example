@@ -38,15 +38,6 @@ public:
     glClear(GL_DEPTH_BUFFER_BIT);
 
     MatrixStack & mv = Stacks::modelview();
-    mv.withPush([&]{
-      mv.translate(glm::vec3(0, 0, -1)).scale(0.2f);
-      drawSphere();
-    });
-    mv.withPush([&]{
-      mv.translate(glm::vec3(0, 0, -1)).scale(0.02f);
-      mv.postMultiply(ovr::toGlm(getEyePose()));
-      oria::renderRift();
-    });
 
     Context::Disable(Capability::CullFace);
     glDisable(GL_CULL_FACE);
