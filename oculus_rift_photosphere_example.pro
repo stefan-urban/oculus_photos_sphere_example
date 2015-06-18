@@ -24,7 +24,6 @@ SOURCES += main.cpp \
     ovr/RiftGlfwApp.cpp \
     ovr/RiftManagerApp.cpp \
     ovr/RiftRenderingApp.cpp \
-    rendering/Interaction.cpp \
     resources/ResourceEnums.cpp \
     resources/Resources.cpp
 
@@ -49,7 +48,6 @@ HEADERS += \
     ovr/RiftManagerApp.h \
     ovr/RiftRenderingApp.h \
     rendering/Colors.h \
-    rendering/Interaction.h \
     rendering/Lights.h \
     rendering/MatrixStack.h \
     rendering/State.h \

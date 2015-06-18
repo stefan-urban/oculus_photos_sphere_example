@@ -113,7 +113,6 @@ public:
 #include "rendering/State.h"
 #include "rendering/Colors.h"
 #include "rendering/Vectors.h"
-#include "rendering/Interaction.h"
 
 #include "opengl/Constants.h"
 #include "opengl/Textures.h"

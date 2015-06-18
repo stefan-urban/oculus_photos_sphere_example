@@ -94,10 +94,11 @@ void RiftApp::initGl() {
   });
 }
 
-void RiftApp::update() {
-  RiftGlfwApp::update();
-//  CameraControl::instance().applyInteraction(player);
-//  Stacks::modelview().top() = glm::lookAt(glm::vec3(0, 0, 0.4f), glm::vec3(0), glm::vec3(0, 1, 0));
+void RiftApp::update()
+{
+    RiftGlfwApp::update();
+    // CameraControl::instance().applyInteraction(player);
+    //  Stacks::modelview().top() = glm::lookAt(glm::vec3(0, 0, 0.4f), glm::vec3(0), glm::vec3(0, 1, 0));
 }
 
 void RiftApp::applyEyePoseAndOffset(const glm::mat4 & eyePose, const glm::vec3 & eyeOffset) {
@@ -107,59 +108,44 @@ void RiftApp::applyEyePoseAndOffset(const glm::mat4 & eyePose, const glm::vec3 &
   mv.preMultiply(glm::translate(glm::mat4(), eyeOffset));
 }
 
-void RiftApp::draw() {
-  ovrHmd_BeginFrame(hmd, getFrame());
-  MatrixStack & mv = Stacks::modelview();
-  MatrixStack & pr = Stacks::projection();
-  
-  ovrHmd_GetEyePoses(hmd, getFrame(), eyeOffsets, eyePoses, nullptr);
-  for (int i = 0; i < 2; ++i) {
-    ovrEyeType eye = currentEye = hmd->EyeRenderOrder[i];
-    Stacks::withPush(pr, mv, [&]{
-      const ovrEyeRenderDesc & erd = eyeRenderDescs[eye];
-      // Set up the per-eye projection matrix
-      {
-        ovrMatrix4f eyeProjection = ovrMatrix4f_Projection(erd.Fov, 0.01f, 100000.0f, true);
-        glm::mat4 ovrProj = ovr::toGlm(eyeProjection);
-        pr.top() = ovrProj;
-      }
+void RiftApp::draw()
+{
+    ovrHmd_BeginFrame(hmd, getFrame());
+    MatrixStack & mv = Stacks::modelview();
+    MatrixStack & pr = Stacks::projection();
 
-      // Set up the per-eye modelview matrix
-      {
-        // Apply the head pose
-        glm::mat4 eyePose = ovr::toGlm(eyePoses[eye]);
-        applyEyePoseAndOffset(eyePose, glm::vec3(0));
-      }
+    ovrHmd_GetEyePoses(hmd, getFrame(), eyeOffsets, eyePoses, nullptr);
 
-      // Render the scene to an offscreen buffer
-      eyeFramebuffers[eye]->Bind();
-      renderScene();
-    });
-  }
-  // Restore the default framebuffer
-  oglplus::DefaultFramebuffer().Bind(oglplus::Framebuffer::Target::Draw);
+    for (int i = 0; i < 2; ++i)
+    {
+        ovrEyeType eye = currentEye = hmd->EyeRenderOrder[i];
+        Stacks::withPush(pr, mv, [&]
+            {
+                const ovrEyeRenderDesc & erd = eyeRenderDescs[eye];
+                // Set up the per-eye projection matrix
+                {
+                    ovrMatrix4f eyeProjection = ovrMatrix4f_Projection(erd.Fov, 0.01f, 100000.0f, true);
+                    glm::mat4 ovrProj = ovr::toGlm(eyeProjection);
+                    pr.top() = ovrProj;
+                }
 
-#if 1
-  ovrHmd_EndFrame(hmd, eyePoses, eyeTextures);
-#else
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  static gl::GeometryPtr geometry = GlUtils::getQuadGeometry(1.0, 1.5f);
-  static gl::ProgramPtr program = GlUtils::getProgram(Resource::SHADERS_TEXTURED_VS, Resource::SHADERS_TEXTURED_FS);
-  program->use();
-  geometry->bindVertexArray();
-  Stacks::with_push(pr, mv, [&]{
-    pr.identity(); mv.identity();
-    frameBuffers[0].color->bind();
-    viewport(ovrEye_Left);
-    geometry->draw();
-    frameBuffers[1].color->bind();
-    viewport(ovrEye_Right);
-    geometry->draw();
-  });
-  gl::Program::clear();
-  gl::VertexArray::unbind();
-  glfwSwapBuffers(window);
-#endif
+                // Set up the per-eye modelview matrix
+                {
+                    // Apply the head pose
+                    glm::mat4 eyePose = ovr::toGlm(eyePoses[eye]);
+                    applyEyePoseAndOffset(eyePose, glm::vec3(0));
+                }
+
+                // Render the scene to an offscreen buffer
+                eyeFramebuffers[eye]->Bind();
+                renderScene();
+            });
+    }
+
+    // Restore the default framebuffer
+    oglplus::DefaultFramebuffer().Bind(oglplus::Framebuffer::Target::Draw);
+
+    ovrHmd_EndFrame(hmd, eyePoses, eyeTextures);
 }
 
 void RiftApp::renderStringAt(const std::string & str, float x, float y, float size) {
