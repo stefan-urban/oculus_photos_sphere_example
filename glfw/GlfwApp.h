@@ -19,7 +19,8 @@
 
 #pragma once
 
-class GlfwApp {
+class GlfwApp
+{
 protected:
     GLFWwindow *  window{ nullptr };
     glm::uvec2    windowSize;

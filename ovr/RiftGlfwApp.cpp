@@ -21,10 +21,12 @@
 #include "RiftGlfwApp.h"
 #include <OVR_CAPI_GL.h>
 
-RiftGlfwApp::RiftGlfwApp() {
+RiftGlfwApp::RiftGlfwApp()
+{
 }
 
-RiftGlfwApp::~RiftGlfwApp() {
+RiftGlfwApp::~RiftGlfwApp()
+{
 }
 
 GLFWwindow * RiftGlfwApp::createRenderingTarget(glm::uvec2 & outSize, glm::ivec2 & outPosition)
@@ -32,7 +34,8 @@ GLFWwindow * RiftGlfwApp::createRenderingTarget(glm::uvec2 & outSize, glm::ivec2
     return ovr::createRiftRenderingWindow(hmd, outSize, outPosition);
 }
 
-void RiftGlfwApp::viewport(ovrEyeType eye) {
+void RiftGlfwApp::viewport(ovrEyeType eye)
+{
     const glm::uvec2 & windowSize = getSize();
     glm::ivec2 viewportPosition(eye == ovrEye_Left ? 0 : windowSize.x / 2, 0);
     GlfwApp::viewport(glm::uvec2(windowSize.x / 2, windowSize.y), viewportPosition);

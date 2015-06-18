@@ -15,28 +15,35 @@
 #endif
 #include <GLFW/glfw3native.h>
 
-namespace glfw {
-  void * getNativeWindowHandle(GLFWwindow * window) {
-    void * nativeWindowHandle = nullptr;
-    ON_WINDOWS([&]{
-      nativeWindowHandle = (void*)glfwGetWin32Window(window);
-    });
-    ON_LINUX([&]{
-      nativeWindowHandle = (void*)glfwGetX11Window(window);
-    });
-    ON_MAC([&]{
-      nativeWindowHandle = (void*)glfwGetCocoaWindow(window);
-    });
-    return nativeWindowHandle;
-  }
+namespace glfw
+{
+    void * getNativeWindowHandle(GLFWwindow * window)
+    {
+        void * nativeWindowHandle = nullptr;
+        ON_WINDOWS([&]
+        {
+            nativeWindowHandle = (void*)glfwGetWin32Window(window);
+        });
+        ON_LINUX([&]
+        {
+            nativeWindowHandle = (void*)glfwGetX11Window(window);
+        });
+        ON_MAC([&]
+        {
+            nativeWindowHandle = (void*)glfwGetCocoaWindow(window);
+        });
+        return nativeWindowHandle;
+    }
 
-  void * getNativeDisplay(GLFWwindow * window) {
-    void * nativeDisplay = nullptr;
-    ON_LINUX([&]{
-      nativeDisplay = (void*)glfwGetX11Display();
-    });
-    return nativeDisplay;
-  }
+    void * getNativeDisplay(GLFWwindow * window)
+    {
+        void * nativeDisplay = nullptr;
+        ON_LINUX([&]
+        {
+            nativeDisplay = (void*)glfwGetX11Display();
+        });
+        return nativeDisplay;
+    }
 
 
 }

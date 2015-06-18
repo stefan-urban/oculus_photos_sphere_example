@@ -8,16 +8,16 @@
 #else
 #  ifndef Resources_EXPORT
 #    ifdef ExampleResources_EXPORTS
-        /* We are building this library */
-#      define Resources_EXPORT 
+/* We are building this library */
+#      define Resources_EXPORT
 #    else
-        /* We are using this library */
-#      define Resources_EXPORT 
+/* We are using this library */
+#      define Resources_EXPORT
 #    endif
 #  endif
 
 #  ifndef RESOURCES_NO_EXPORT
-#    define RESOURCES_NO_EXPORT 
+#    define RESOURCES_NO_EXPORT
 #  endif
 #endif
 

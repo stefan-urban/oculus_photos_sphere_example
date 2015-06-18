@@ -19,69 +19,79 @@
 
 #pragma once
 
-class RiftApp : public RiftGlfwApp {
-  ovrEyeRenderDesc eyeRenderDescs[2];
-  ovrPosef eyePoses[2];
-  ovrEyeType currentEye;
+class RiftApp : public RiftGlfwApp
+{
+    ovrEyeRenderDesc eyeRenderDescs[2];
+    ovrPosef eyePoses[2];
+    ovrEyeType currentEye;
 
-  glm::mat4 projections[2];
-  FramebufferWrapperPtr eyeFramebuffers[2];
-
-protected:
-  glm::mat4 player;
-  ovrTexture eyeTextures[2];
-  ovrVector3f eyeOffsets[2];
+    glm::mat4 projections[2];
+    FramebufferWrapperPtr eyeFramebuffers[2];
 
 protected:
-  using RiftGlfwApp::renderStringAt;
-  void renderStringAt(const std::string & str, float x, float y, float size = 18.0f);
-  virtual void initGl();
-  virtual void finishFrame();
-  virtual void draw() final;
-  virtual void update();
-  virtual void renderScene() = 0;
+    glm::mat4 player;
+    ovrTexture eyeTextures[2];
+    ovrVector3f eyeOffsets[2];
 
-  virtual void applyEyePoseAndOffset(const glm::mat4 & eyePose, const glm::vec3 & eyeOffset);
+protected:
+    using RiftGlfwApp::renderStringAt;
+    void renderStringAt(const std::string & str, float x, float y, float size = 18.0f);
+    virtual void initGl();
+    virtual void finishFrame();
+    virtual void draw() final;
+    virtual void update();
+    virtual void renderScene() = 0;
 
-  inline ovrEyeType getCurrentEye() const {
-    return currentEye;
-  }
+    virtual void applyEyePoseAndOffset(const glm::mat4 & eyePose, const glm::vec3 & eyeOffset);
 
-  const ovrEyeRenderDesc & getEyeRenderDesc(ovrEyeType eye) const {
-    return eyeRenderDescs[eye];
-  }
+    inline ovrEyeType getCurrentEye() const
+    {
+        return currentEye;
+    }
 
-  const ovrFovPort & getFov(ovrEyeType eye) const {
-    return eyeRenderDescs[eye].Fov;
-  }
+    const ovrEyeRenderDesc & getEyeRenderDesc(ovrEyeType eye) const
+    {
+        return eyeRenderDescs[eye];
+    }
 
-  const glm::mat4 & getPerspectiveProjection(ovrEyeType eye) const {
-    return projections[eye];
-  }
+    const ovrFovPort & getFov(ovrEyeType eye) const
+    {
+        return eyeRenderDescs[eye].Fov;
+    }
 
-  const ovrPosef & getEyePose(ovrEyeType eye) const {
-    return eyePoses[eye];
-  }
+    const glm::mat4 & getPerspectiveProjection(ovrEyeType eye) const
+    {
+        return projections[eye];
+    }
 
-  const ovrPosef & getEyePose() const {
-    return getEyePose(getCurrentEye());
-  }
+    const ovrPosef & getEyePose(ovrEyeType eye) const
+    {
+        return eyePoses[eye];
+    }
 
-  const ovrFovPort & getFov() const {
-    return getFov(getCurrentEye());
-  }
+    const ovrPosef & getEyePose() const
+    {
+        return getEyePose(getCurrentEye());
+    }
 
-  const ovrEyeRenderDesc & getEyeRenderDesc() const {
-    return getEyeRenderDesc(getCurrentEye());
-  }
+    const ovrFovPort & getFov() const
+    {
+        return getFov(getCurrentEye());
+    }
 
-  const glm::mat4 & getPerspectiveProjection() const {
-    return getPerspectiveProjection(getCurrentEye());
-  }
+    const ovrEyeRenderDesc & getEyeRenderDesc() const
+    {
+        return getEyeRenderDesc(getCurrentEye());
+    }
+
+    const glm::mat4 & getPerspectiveProjection() const
+    {
+        return getPerspectiveProjection(getCurrentEye());
+    }
 
 public:
-  RiftApp();
-  virtual ~RiftApp();
+    RiftApp();
+    virtual ~RiftApp();
 };
 
 

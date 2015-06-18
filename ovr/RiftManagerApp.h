@@ -19,21 +19,22 @@
 
 #pragma once
 
-class RiftManagerApp {
+class RiftManagerApp
+{
 protected:
 
-  ovrHmd hmd;
+    ovrHmd hmd;
 
-  glm::uvec2 hmdNativeResolution;
-  glm::ivec2 hmdDesktopPosition;
+    glm::uvec2 hmdNativeResolution;
+    glm::ivec2 hmdDesktopPosition;
 
 public:
-  RiftManagerApp(ovrHmdType defaultHmdType = ovrHmd_DK2);
-  virtual ~RiftManagerApp();
+    RiftManagerApp(ovrHmdType defaultHmdType = ovrHmd_DK2);
+    virtual ~RiftManagerApp();
 
-  int getEnabledCaps();
-  void enableCaps(int caps);
-  void toggleCaps(ovrHmdCaps cap);
-  void disableCaps(int caps);
+    int getEnabledCaps();
+    void enableCaps(int caps);
+    void toggleCaps(ovrHmdCaps cap);
+    void disableCaps(int caps);
 };
 

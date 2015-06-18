@@ -19,44 +19,47 @@
 
 #pragma once
 
-class RiftRenderingApp : public RiftManagerApp {
-  ovrEyeType currentEye{ovrEye_Count};
-  FramebufferWrapperPtr eyeFramebuffers[2];
-  unsigned int frameCount{ 0 };
+class RiftRenderingApp : public RiftManagerApp
+{
+    ovrEyeType currentEye{ovrEye_Count};
+    FramebufferWrapperPtr eyeFramebuffers[2];
+    unsigned int frameCount{ 0 };
 
 protected:
-  ovrPosef eyePoses[2];
-  ovrVector3f eyeOffsets[2];
-  ovrTexture eyeTextures[2];
-  glm::mat4 projections[2];
+    ovrPosef eyePoses[2];
+    ovrVector3f eyeOffsets[2];
+    ovrTexture eyeTextures[2];
+    glm::mat4 projections[2];
 
-  bool eyePerFrameMode{ false };
-  ovrEyeType lastEyeRendered{ ovrEye_Count };
+    bool eyePerFrameMode{ false };
+    ovrEyeType lastEyeRendered{ ovrEye_Count };
 
-  std::mutex * endFrameLock{ nullptr };
+    std::mutex * endFrameLock{ nullptr };
 
 private:
-  virtual void * getNativeWindow() = 0;
+    virtual void * getNativeWindow() = 0;
 
 protected:
 
-  inline ovrEyeType getCurrentEye() const {
-    return currentEye;
-  }
+    inline ovrEyeType getCurrentEye() const
+    {
+        return currentEye;
+    }
 
-  const ovrPosef & getEyePose() const {
-    return eyePoses[currentEye];
-  }
+    const ovrPosef & getEyePose() const
+    {
+        return eyePoses[currentEye];
+    }
 
-  virtual void updateFps(float fps) { }
-  virtual void initializeRiftRendering();
-  virtual void drawRiftFrame() final;
-  virtual void perFrameRender() {};
-  virtual void perEyeRender() {};
+    virtual void updateFps(float fps) { }
+    virtual void initializeRiftRendering();
+    virtual void drawRiftFrame() final;
+    virtual void perFrameRender() {};
+    virtual void perEyeRender() {};
 
 public:
-  RiftRenderingApp();
-  virtual ~RiftRenderingApp();
+    RiftRenderingApp();
+    virtual ~RiftRenderingApp();
 };
 
 

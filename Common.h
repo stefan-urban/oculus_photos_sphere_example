@@ -80,8 +80,9 @@ using glm::vec3;
 using glm::vec4;
 using glm::quat;
 
-inline float aspect(const glm::uvec2 & v) {
-  return (float)v.x / (float)v.y;
+inline float aspect(const glm::uvec2 & v)
+{
+    return (float)v.x / (float)v.y;
 }
 
 #include <GLFW/glfw3.h>
@@ -91,18 +92,21 @@ inline float aspect(const glm::uvec2 & v) {
 typedef std::function<void()> Lambda;
 typedef std::list<Lambda> LambdaList;
 
-class Finally {
+class Finally
+{
 private:
-  Lambda function;
+    Lambda function;
 
 public:
-  Finally(Lambda function)
-    : function(function) {
-  }
+    Finally(Lambda function)
+        : function(function)
+    {
+    }
 
-  virtual ~Finally() {
-    function();
-  }
+    virtual ~Finally()
+    {
+        function();
+    }
 };
 
 #include "Platform.h"

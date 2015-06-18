@@ -28,128 +28,137 @@
 #include <cstdint>
 #include "Types.h"
 
-namespace Text {
+namespace Text
+{
 
-class Font {
-public:
-  static const float DTP_TO_METERS; // = 0.003528f;
-  static const float METERS_TO_DTP; // = 1.0 / DTP_TO_METERS;
+    class Font
+    {
+    public:
+        static const float DTP_TO_METERS; // = 0.003528f;
+        static const float METERS_TO_DTP; // = 1.0 / DTP_TO_METERS;
 
-public:
-  // stores the font metrics for a single character
-  struct Metrics {
-    glm::vec2 ul;
-    glm::vec2 lr;
-    glm::vec2 size;
-    glm::vec2 offset;
-    float d;  // xadvance - adjusts character positioning
-    size_t indexOffset;
-  };
+    public:
+        // stores the font metrics for a single character
+        struct Metrics
+        {
+            glm::vec2 ul;
+            glm::vec2 lr;
+            glm::vec2 size;
+            glm::vec2 offset;
+            float d;  // xadvance - adjusts character positioning
+            size_t indexOffset;
+        };
 
-  typedef std::unordered_map<uint16_t, Metrics> MetricsData;
-  public:
-  Font();
-  virtual ~Font();
+        typedef std::unordered_map<uint16_t, Metrics> MetricsData;
+    public:
+        Font();
+        virtual ~Font();
 
-  //! reads a binary font file created using 'writeBinary'
-  void read(const void * data, size_t size);
+        //! reads a binary font file created using 'writeBinary'
+        void read(const void * data, size_t size);
 
-  //!
-  const std::string & getFamily() const {
-    return mFamily;
-  }
-  //!
-  float getAscent(float fontSize = 12.0f) const {
-    return mAscent * (fontSize / mFontSize);
-  }
-  //!
-  float getDescent(float fontSize = 12.0f) const {
-    return mDescent * (fontSize / mFontSize);
-  }
-  //!
-  float getLeading(float fontSize = 12.0f) const {
-    return mLeading * (fontSize / mFontSize);
-  }
-  //!
-  float getSpaceWidth(float fontSize = 12.0f) const {
-    return mSpaceWidth * (fontSize / mFontSize);
-  }
+        //!
+        const std::string & getFamily() const
+        {
+            return mFamily;
+        }
+        //!
+        float getAscent(float fontSize = 12.0f) const
+        {
+            return mAscent * (fontSize / mFontSize);
+        }
+        //!
+        float getDescent(float fontSize = 12.0f) const
+        {
+            return mDescent * (fontSize / mFontSize);
+        }
+        //!
+        float getLeading(float fontSize = 12.0f) const
+        {
+            return mLeading * (fontSize / mFontSize);
+        }
+        //!
+        float getSpaceWidth(float fontSize = 12.0f) const
+        {
+            return mSpaceWidth * (fontSize / mFontSize);
+        }
 
-  //!
-  bool contains(uint16_t charcode) const {
-    return (mMetrics.find(charcode) != mMetrics.end());
-  }
-  //!
-  rectf getBounds(uint16_t charcode, float fontSize = 12.0f) const;
-  //!
-  rectf getTexCoords(uint16_t charcode) const;
-  //!
-  float getAdvance(uint16_t charcode, float fontSize = 12.0f) const;
-  //!
-  rectf measure(const std::string &text, float fontSize = 12.0f) const;
-  //!
-  rectf measure(const std::wstring &text, float fontSize = 12.0f) const;
+        //!
+        bool contains(uint16_t charcode) const
+        {
+            return (mMetrics.find(charcode) != mMetrics.end());
+        }
+        //!
+        rectf getBounds(uint16_t charcode, float fontSize = 12.0f) const;
+        //!
+        rectf getTexCoords(uint16_t charcode) const;
+        //!
+        float getAdvance(uint16_t charcode, float fontSize = 12.0f) const;
+        //!
+        rectf measure(const std::string &text, float fontSize = 12.0f) const;
+        //!
+        rectf measure(const std::wstring &text, float fontSize = 12.0f) const;
 
-  //!
-  float measureWidth(const std::string &text, float fontSize = 12.0f,
-      bool precise = true) const;
+        //!
+        float measureWidth(const std::string &text, float fontSize = 12.0f,
+                           bool precise = true) const;
 
-  //!
-  float measureWidth(
-      const std::wstring &text,
-      float fontSize = 12.0f,
-      bool precise = true) const;
+        //!
+        float measureWidth(
+            const std::wstring &text,
+            float fontSize = 12.0f,
+            bool precise = true) const;
 
-  float measureWidth(
-      const std::wstring &text,
-      size_t start,
-      size_t end,
-      float fontSize = 12.0f,
-      bool precise = true) const;
+        float measureWidth(
+            const std::wstring &text,
+            size_t start,
+            size_t end,
+            float fontSize = 12.0f,
+            bool precise = true) const;
 
-public:
-  //!
-  inline rectf getBounds(const Metrics &metrics,
-      float fontSize = 12.0f) const;
-  //!
-  inline rectf getTexCoords(const Metrics &metrics) const;
-  //!
-  inline float getAdvance(const Metrics &metrics,
-      float fontSize = 12.0f) const;
-  //!
-  Metrics getMetrics(uint16_t charcode) const;
+    public:
+        //!
+        inline rectf getBounds(const Metrics &metrics,
+                               float fontSize = 12.0f) const;
+        //!
+        inline rectf getTexCoords(const Metrics &metrics) const;
+        //!
+        inline float getAdvance(const Metrics &metrics,
+                                float fontSize = 12.0f) const;
+        //!
+        Metrics getMetrics(uint16_t charcode) const;
 
-  rectf getDimensions(const std::wstring & str, float fontSize);
+        rectf getDimensions(const std::wstring & str, float fontSize);
 
-  void renderString(
-      const std::string & str,
-      glm::vec2 & cursor,
-      float fontSize = 12.0f,
-      float maxWidth = NAN);
+        void renderString(
+            const std::string & str,
+            glm::vec2 & cursor,
+            float fontSize = 12.0f,
+            float maxWidth = NAN);
 
-  void renderString(
-      const std::wstring & str,
-      glm::vec2 & cursor,
-      float fontSize = 12.0f,
-      float maxWidth = NAN);
+        void renderString(
+            const std::wstring & str,
+            glm::vec2 & cursor,
+            float fontSize = 12.0f,
+            float maxWidth = NAN);
 
-public:
-  std::string mFamily;
+    public:
+        std::string mFamily;
 
-  //! calculated by the 'measure' function
-  float mFontSize;
-  float mLeading;
-  float mAscent;
-  float mDescent;
-  float mSpaceWidth;
+        //! calculated by the 'measure' function
+        float mFontSize;
+        float mLeading;
+        float mAscent;
+        float mDescent;
+        float mSpaceWidth;
 
-  TexturePtr mTexture;
-  VertexArrayPtr mVao;
-  glm::vec2 mTextureSize;
+        TexturePtr mTexture;
+        VertexArrayPtr mVao;
+        glm::vec2 mTextureSize;
 
-  MetricsData mMetrics;
-};
+        MetricsData mMetrics;
+    };
 
-typedef std::shared_ptr<Font> FontPtr;
+    typedef std::shared_ptr<Font> FontPtr;
 
 }

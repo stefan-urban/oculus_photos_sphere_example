@@ -58,16 +58,16 @@
 #define ON_MAC(runnable)
 #define ON_LINUX(runnable)
 #define NOMINMAX
-#define WIN32_LEAN_AND_MEAN 
+#define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #undef NOMINMAX
 #elif defined(OS_OSX)
-#define ON_WINDOWS(runnable) 
+#define ON_WINDOWS(runnable)
 #define ON_MAC(runnable) runnable()
 #define ON_LINUX(runnable)
 #elif defined(OS_LINUX)
-#define ON_WINDOWS(runnable) 
-#define ON_MAC(runnable) 
+#define ON_WINDOWS(runnable)
+#define ON_MAC(runnable)
 #define ON_LINUX(runnable) runnable()
 #endif
 

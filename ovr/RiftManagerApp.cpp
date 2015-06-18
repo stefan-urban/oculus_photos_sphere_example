@@ -19,40 +19,53 @@
 
 #include "Common.h"
 
-RiftManagerApp::RiftManagerApp(ovrHmdType defaultHmdType) {
-  hmd = ovrHmd_Create(0);
-  if (nullptr == hmd) {
-    hmd = ovrHmd_CreateDebug(defaultHmdType);
-    hmdDesktopPosition = glm::ivec2(100, 100);
-  } else {
-    hmdDesktopPosition = glm::ivec2(hmd->WindowsPos.x, hmd->WindowsPos.y);
-  }
-  hmdNativeResolution = glm::ivec2(hmd->Resolution.w, hmd->Resolution.h);
+RiftManagerApp::RiftManagerApp(ovrHmdType defaultHmdType)
+{
+    hmd = ovrHmd_Create(0);
+    if (nullptr == hmd)
+    {
+        hmd = ovrHmd_CreateDebug(defaultHmdType);
+        hmdDesktopPosition = glm::ivec2(100, 100);
+    }
+    else
+    {
+        hmdDesktopPosition = glm::ivec2(hmd->WindowsPos.x, hmd->WindowsPos.y);
+    }
+    hmdNativeResolution = glm::ivec2(hmd->Resolution.w, hmd->Resolution.h);
 }
 
-RiftManagerApp::~RiftManagerApp() {
-  if (hmd) {
-    ovrHmd_Destroy(hmd);
-    hmd = nullptr;
-  }
+RiftManagerApp::~RiftManagerApp()
+{
+    if (hmd)
+    {
+        ovrHmd_Destroy(hmd);
+        hmd = nullptr;
+    }
 }
 
-int RiftManagerApp::getEnabledCaps() {
-  return ovrHmd_GetEnabledCaps(hmd);
+int RiftManagerApp::getEnabledCaps()
+{
+    return ovrHmd_GetEnabledCaps(hmd);
 }
 
-void RiftManagerApp::enableCaps(int caps) {
-  ovrHmd_SetEnabledCaps(hmd, getEnabledCaps() | caps);
+void RiftManagerApp::enableCaps(int caps)
+{
+    ovrHmd_SetEnabledCaps(hmd, getEnabledCaps() | caps);
 }
 
-void RiftManagerApp::toggleCaps(ovrHmdCaps cap) {
-  if (cap & getEnabledCaps()) {
-    disableCaps(cap);
-  } else {
-    enableCaps(cap);
-  }
+void RiftManagerApp::toggleCaps(ovrHmdCaps cap)
+{
+    if (cap & getEnabledCaps())
+    {
+        disableCaps(cap);
+    }
+    else
+    {
+        enableCaps(cap);
+    }
 }
 
-void RiftManagerApp::disableCaps(int caps) {
-  ovrHmd_SetEnabledCaps(hmd, getEnabledCaps() & ~caps);
+void RiftManagerApp::disableCaps(int caps)
+{
+    ovrHmd_SetEnabledCaps(hmd, getEnabledCaps() & ~caps);
 }

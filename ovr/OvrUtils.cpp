@@ -59,24 +59,29 @@ namespace ovr
 
 }
 
-namespace oria {
+namespace oria
+{
 
-  // Returns true if the HSW needed to be removed from display, else false.
-  bool clearHSW(ovrHmd hmd) {
-    static bool dismissedHsw = false;
+// Returns true if the HSW needed to be removed from display, else false.
+    bool clearHSW(ovrHmd hmd)
+    {
+        static bool dismissedHsw = false;
 
-    if (!dismissedHsw) {
-      ovrHSWDisplayState hswDisplayState;
-      ovrHmd_GetHSWDisplayState(hmd, &hswDisplayState);
-      if (hswDisplayState.Displayed) {
-        ovrHmd_DismissHSWDisplay(hmd);
-        return true;
-      }
-      else {
-        dismissedHsw = true;
-      }
+        if (!dismissedHsw)
+        {
+            ovrHSWDisplayState hswDisplayState;
+            ovrHmd_GetHSWDisplayState(hmd, &hswDisplayState);
+            if (hswDisplayState.Displayed)
+            {
+                ovrHmd_DismissHSWDisplay(hmd);
+                return true;
+            }
+            else
+            {
+                dismissedHsw = true;
+            }
+        }
+        return !dismissedHsw;
     }
-    return !dismissedHsw;
-  }
 
 }
