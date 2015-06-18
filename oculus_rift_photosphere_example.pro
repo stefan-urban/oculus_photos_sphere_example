@@ -56,3 +56,6 @@ HEADERS += \
     resources/Resources.h \
     resources/Resources_Export.h \
     PhotoSphereExample.h
+
+OTHER_FILES += \
+    README.md
